@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>音乐 API 聚合服务</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="header-top">
+        <div class="auth-buttons">
+          <a href="/login.html" class="btn btn-outline">登录</a>
+          <a href="/register.html" class="btn btn-primary">注册</a>
+        </div>
+      </div>
+      <h1>音乐 API 聚合服务</h1>
+      <p class="subtitle">多平台音乐资源聚合</p>
+    </header>
+
+    <section class="features">
+      <h2>功能特点</h2>
+      <div class="feature-grid">
+        <div class="feature-card">
+          <div class="feature-icon">🎵</div>
+          <h3>多平台支持</h3>
+          <p>支持网易云音乐、QQ音乐、酷我音乐和酷狗音乐等多个平台</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🔊</div>
+          <h3>多音质选择</h3>
+          <p>提供从标准音质到无损音质的多种选择</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">⚡</div>
+          <h3>快速响应</h3>
+          <p>基于 Vercel 部署，全球节点，低延迟响应</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🔌</div>
+          <h3>简单集成</h3>
+          <p>提供简洁的 API 接口，易于与各种应用集成</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="api-test">
+      <h2>API 测试</h2>
+      <div class="api-notice">
+        <p>注意: 此API需要API密钥才能使用。请<a href="/register.html">注册账号</a>获取您的API密钥。</p>
+      </div>
+      <div class="test-container">
+        <div class="form-group">
+          <label for="platform">平台</label>
+          <select id="platform">
+            <option value="netease">网易云音乐</option>
+            <option value="qq">QQ音乐</option>
+            <option value="kuwo">酷我音乐</option>
+            <option value="kugou">酷狗音乐</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="musicId">音乐ID</label>
+          <input type="text" id="musicId" placeholder="输入音乐ID">
+        </div>
+        <div class="form-group">
+          <label for="quality">音质</label>
+          <select id="quality">
+            <option value="128k">标准 (128k)</option>
+            <option value="320k" selected>高品质 (320k)</option>
+            <option value="flac">无损 (FLAC)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="apiKey">API密钥</label>
+          <input type="text" id="apiKey" placeholder="输入您的API密钥">
+        </div>
+        <button id="testButton" class="btn">获取音乐链接</button>
+        <div class="result-container">
+          <h3>结果</h3>
+          <pre id="result">// 结果将显示在这里</pre>
+          <div id="player-container" style="display: none;">
+            <h3>音乐播放器</h3>
+            <audio id="audio-player" controls></audio>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="api-docs">
+      <h2>API 文档</h2>
+      <div class="api-endpoints">
+        <div class="endpoint">
+          <h3>获取支持的平台</h3>
+          <div class="endpoint-details">
+            <p><span class="method">GET</span> <code>/api/platforms</code></p>
+            <p>获取所有支持的音乐平台及其支持的音质</p>
+            <div class="code-sample">
+              <h4>响应示例:</h4>
+              <pre>{
+  "success": true,
+  "data": [
+    {
+      "code": "netease",
+      "name": "网易云音乐",
+      "qualities": ["128k", "320k", "flac", "flac24bit"]
+    },
+    {
+      "code": "qq",
+      "name": "QQ音乐",
+      "qualities": ["128k", "320k", "flac", "flac24bit"]
+    }
+  ]
+}</pre>
+            </div>
+          </div>
+        </div>
+        <div class="endpoint">
+          <h3>获取音乐URL</h3>
+          <div class="endpoint-details">
+            <p><span class="method">POST</span> <code>/api/music/url</code></p>
+            <p>获取指定平台和ID的音乐URL</p>
+            <p><strong>需要认证:</strong> 是 (API密钥)</p>
+            <div class="code-sample">
+              <h4>请求示例:</h4>
+              <pre>{
+  "platform": "netease",
+  "musicInfo": {
+    "id": "1824020871"
+  },
+  "quality": "320k"
+}</pre>
+            </div>
+            <div class="code-sample">
+              <h4>响应示例:</h4>
+              <pre>{
+  "success": true,
+  "data": {
+    "url": "https://music.example.com/song.mp3",
+    "platform": "网易云音乐",
+    "quality": "320k"
+  }
+}</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="code-examples">
+      <h2>代码示例</h2>
+      <div class="tabs">
+        <div class="tab-header">
+          <button class="tab-btn active" data-tab="js">JavaScript</button>
+          <button class="tab-btn" data-tab="python">Python</button>
+          <button class="tab-btn" data-tab="curl">cURL</button>
+        </div>
+        <div class="tab-content">
+          <div class="tab-pane active" id="js-tab">
+            <pre>// 使用 fetch API
+async function getMusicUrl(platform, musicId, quality = '320k', apiKey) {
+  const response = await fetch('/api/music/url', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-API-Key': apiKey
+    },
+    body: JSON.stringify({
+      platform,
+      musicInfo: { id: musicId },
+      quality
+    })
+  });
+  
+  const data = await response.json();
+  
+  if (!data.success) {
+    throw new Error(data.message);
+  }
+  
+  return data.data.url;
+}</pre>
+          </div>
+          <div class="tab-pane" id="python-tab">
+            <pre>import requests
+
+def get_music_url(platform, music_id, quality='320k', api_key=None):
+    url = 'https://your-vercel-app.vercel.app/api/music/url'
+    headers = {
+        'Content-Type': 'application/json',
+        'X-API-Key': api_key
+    }
+    data = {
+        'platform': platform,
+        'musicInfo': {'id': music_id},
+        'quality': quality
+    }
+    
+    response = requests.post(url, json=data, headers=headers)
+    result = response.json()
+    
+    if not result.get('success'):
+        raise Exception(result.get('message', '未知错误'))
+    
+    return result['data']['url']</pre>
+          </div>
+          <div class="tab-pane" id="curl-tab">
+            <pre>curl -X POST https://your-vercel-app.vercel.app/api/music/url \
+  -H "Content-Type: application/json" \
+  -H "X-API-Key: YOUR_API_KEY" \
+  -d '{"platform":"netease","musicInfo":{"id":"1824020871"},"quality":"320k"}'</pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <p>© 2023 音乐 API 聚合服务 | <a href="https://github.com/yourusername/music-api-aggregator" target="_blank">GitHub</a></p>
+      <p class="disclaimer">本服务仅供学习和研究使用，请遵守相关法律法规和平台的使用条款</p>
+    </footer>
+  </div>
+
+  <script src="js/main.js"></script>
+</body>
+</html> 

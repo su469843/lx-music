@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>登录 - 音乐 API 聚合服务</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/auth.css">
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+</head>
+<body>
+  <div class="container">
+    <div class="auth-container">
+      <div class="auth-header">
+        <h1>登录账号</h1>
+        <p>登录以访问您的API密钥</p>
+      </div>
+      
+      <form id="loginForm" class="auth-form">
+        <div class="form-group">
+          <label for="email">电子邮箱</label>
+          <input type="email" id="email" name="email" required placeholder="your@email.com">
+        </div>
+        
+        <div class="form-group">
+          <label for="password">密码</label>
+          <input type="password" id="password" name="password" required placeholder="您的密码">
+        </div>
+        
+        <div id="errorMessage" class="error-message"></div>
+        
+        <button type="submit" class="btn btn-primary">登录</button>
+        
+        <div class="auth-links">
+          <p>没有账号? <a href="register.html">注册</a></p>
+        </div>
+      </form>
+    </div>
+  </div>
+  
+  <script src="js/login.js"></script>
+</body>
+</html> 

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>用户中心 - 音乐 API 聚合服务</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/auth.css">
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+</head>
+<body>
+  <div class="container">
+    <div class="dashboard-container">
+      <div class="dashboard-header">
+        <h1>用户中心</h1>
+        <p>管理您的API密钥和账号信息</p>
+      </div>
+      
+      <div class="dashboard-content">
+        <div class="user-info">
+          <h2>账号信息</h2>
+          <div class="info-item">
+            <span class="label">邮箱:</span>
+            <span id="userEmail" class="value">loading...</span>
+          </div>
+        </div>
+        
+        <div class="api-key-section">
+          <h2>API密钥</h2>
+          <p>使用此密钥访问音乐API服务</p>
+          
+          <div class="api-key-display">
+            <input type="text" id="apiKeyInput" readonly>
+            <button id="copyButton" class="btn btn-small">复制</button>
+          </div>
+          
+          <div class="api-usage">
+            <h3>如何使用API密钥</h3>
+            <p>在请求头中添加 <code>X-API-Key</code> 或在URL参数中添加 <code>apiKey</code>:</p>
+            
+            <div class="code-example">
+              <h4>使用请求头:</h4>
+              <pre>fetch('/api/music/url', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'X-API-Key': 'YOUR_API_KEY'
+  },
+  body: JSON.stringify({
+    platform: 'netease',
+    musicInfo: { id: '1824020871' },
+    quality: '320k'
+  })
+})</pre>
+            </div>
+            
+            <div class="code-example">
+              <h4>使用URL参数:</h4>
+              <pre>fetch('/api/music/url?apiKey=YOUR_API_KEY', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    platform: 'netease',
+    musicInfo: { id: '1824020871' },
+    quality: '320k'
+  })
+})</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="dashboard-footer">
+        <button id="logoutButton" class="btn btn-secondary">退出登录</button>
+        <a href="index.html" class="btn btn-link">返回首页</a>
+      </div>
+    </div>
+  </div>
+  
+  <script src="js/dashboard.js"></script>
+</body>
+</html> 
