@@ -46,6 +46,34 @@
       </div>
     </section>
 
+    <section class="search-container">
+      <h2>搜索音乐</h2>
+      <form id="searchForm">
+        <div class="form-group">
+          <label for="platform">平台</label>
+          <select id="platform" name="platform" required>
+            <option value="netease">网易云音乐</option>
+            <option value="qq">QQ音乐</option>
+            <option value="kuwo">酷我音乐</option>
+            <option value="kugou">酷狗音乐</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="songName">歌曲名称</label>
+          <input type="text" id="songName" name="songName" required placeholder="输入歌曲名称">
+        </div>
+        <div class="form-group">
+          <label for="quality">音质</label>
+          <select id="quality" name="quality" required>
+            <option value="128k">标准音质 (128k)</option>
+            <option value="320k">高品质 (320k)</option>
+            <option value="flac">无损音质 (FLAC)</option>
+          </select>
+        </div>
+        <button type="submit" class="btn btn-primary">搜索</button>
+      </form>
+    </section>
+
     <section class="api-test">
       <h2>API 测试</h2>
       <div class="api-notice">

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>后台管理 - 音乐 API 聚合服务</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/auth.css">
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+</head>
+<body>
+  <div class="container">
+    <div class="auth-container">
+      <div class="auth-header">
+        <h1>后台管理</h1>
+        <p>管理登记记录、公告和密码</p>
+      </div>
+      
+      <div class="admin-sections">
+        <section class="admin-section">
+          <h2>登记记录</h2>
+          <table id="usersTable">
+            <thead>
+              <tr>
+                <th>邮箱</th>
+                <th>登记时间</th>
+                <th>令牌</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- 动态填充 -->
+            </tbody>
+          </table>
+        </section>
+        
+        <section class="admin-section">
+          <h2>设置公告</h2>
+          <form id="announcementForm">
+            <textarea id="announcement" placeholder="输入公告内容"></textarea>
+            <button type="submit" class="btn btn-primary">设置公告</button>
+          </form>
+        </section>
+        
+        <section class="admin-section">
+          <h2>修改密码</h2>
+          <form id="changePasswordForm">
+            <input type="password" id="oldPassword" placeholder="旧密码" required>
+            <input type="password" id="newPassword" placeholder="新密码" required>
+            <button type="submit" class="btn btn-primary">修改密码</button>
+          </form>
+        </section>
+        
+        <section class="admin-section">
+          <h2>管理令牌</h2>
+          <form id="manageTokenForm">
+            <input type="email" id="email" placeholder="用户邮箱" required>
+            <input type="text" id="token" placeholder="新令牌">
+            <button type="submit" class="btn btn-primary">更新令牌</button>
+          </form>
+        </section>
+      </div>
+    </div>
+  </div>
+  
+  <script src="js/admin.js"></script>
+</body>
+</html> 

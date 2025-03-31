@@ -11,18 +11,18 @@ const router = express.Router();
 const JWT_SECRET = process.env.JWT_SECRET || 'your_jwt_secret_key';
 
 /**
- * 注册新用户
+ * 登记邮箱
  * POST /api/auth/register
  */
 router.post('/register', async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { email } = req.body;
     
     // 验证请求数据
-    if (!email || !password) {
+    if (!email) {
       return res.status(400).json({
         success: false,
-        message: '邮箱和密码不能为空'
+        message: '邮箱不能为空'
       });
     }
     
@@ -31,47 +31,27 @@ router.post('/register', async (req, res) => {
     if (existingUser) {
       return res.status(400).json({
         success: false,
-        message: '该邮箱已被注册'
+        message: '该邮箱已被登记'
       });
     }
     
-    // 生成API密钥
-    const apiKey = uuidv4();
+    // 生成令牌
+    const token = uuidv4();
     
     // 创建新用户
-    const user = new User({
-      email,
-      password,
-      apiKey,
-      isVerified: true  // 设置为已验证
-    });
-    
+    const user = new User({ email, token });
     await user.save();
     
-    // 生成JWT令牌
-    const token = jwt.sign(
-      { id: user._id, email: user.email },
-      JWT_SECRET,
-      { expiresIn: '7d' }
-    );
-    
-    // 返回成功响应
-    res.status(201).json({
+    res.json({
       success: true,
-      data: {
-        token,
-        user: {
-          email: user.email,
-          apiKey: user.apiKey
-        }
-      },
-      message: '注册成功'
+      data: { token },
+      message: '邮箱登记成功'
     });
   } catch (error) {
-    logger.error('用户注册失败', { error: error.message });
+    logger.error('登记邮箱失败', { error: error.message });
     res.status(500).json({
       success: false,
-      message: '注册失败，请稍后重试'
+      message: '登记邮箱失败，请稍后重试'
     });
   }
 });
@@ -100,7 +80,7 @@ router.get('/verify', async (req, res) => {
     if (!user) {
       return res.status(400).json({
         success: false,
-        message: '验证令牌无效或已过期'
+        message: '无效的验证令牌或令牌已过期'
       });
     }
     
