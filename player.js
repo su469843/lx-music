@@ -2,8 +2,6 @@
  * @name 音乐播放器
  * @description 使用 API 获取并播放音乐
  * @version 1.0.0
- * @author Your Name
- * @homepage http://yourwebsite.com
  */
 
 // 调试模式开关
@@ -17,17 +15,16 @@ const debugLog = (title, message) => {
 };
 
 // API 请求函数
-const fetchMusicUrl = async (platform, musicId, quality) => {
+const fetchMusicUrl = async (platform, songName, quality) => {
   try {
     const response = await fetch('/api/music/url', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
-        'X-API-Key': localStorage.getItem('apiKey') || 'YOUR_API_KEY_HERE'
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({
         platform,
-        musicInfo: { id: musicId },
+        songName,
         quality
       })
     });
@@ -55,13 +52,13 @@ const playMusic = (url) => {
 const main = async () => {
   // 示例数据
   const platform = 'netease'; // 或 'qq', 'kuwo', 'kugou'
-  const musicId = 'YOUR_MUSIC_ID_HERE'; // 替换为实际的音乐 ID
-  const quality = '320k'; // 或 '128k', 'flac', 'flac24bit'
+  const songName = '晴天'; // 替换为要搜索的歌曲名称
+  const quality = '320k'; // 或 '128k', 'flac'
 
   try {
-    debugLog('开始获取音乐 URL', `平台: ${platform}, ID: ${musicId}, 音质: ${quality}`);
+    debugLog('开始获取音乐 URL', `平台: ${platform}, 歌曲: ${songName}, 音质: ${quality}`);
 
-    const musicUrl = await fetchMusicUrl(platform, musicId, quality);
+    const musicUrl = await fetchMusicUrl(platform, songName, quality);
     debugLog('获取音乐 URL 成功', musicUrl);
 
     const audio = playMusic(musicUrl);
@@ -79,6 +76,17 @@ const main = async () => {
 
   } catch (error) {
     console.error('发生错误:', error.message);
+  }
+};
+
+// 导出函数供外部使用
+window.playMusicByName = async (platform, songName, quality = '320k') => {
+  try {
+    const musicUrl = await fetchMusicUrl(platform, songName, quality);
+    return playMusic(musicUrl);
+  } catch (error) {
+    console.error('播放音乐失败:', error.message);
+    throw error;
   }
 };
 

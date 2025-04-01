@@ -1,6 +1,12 @@
 const express = require('express');
 const router = express.Router();
 const logger = require('../../utils/logger');
+const platforms = {
+  netease: require('../../utils/platforms/netease'),
+  qq: require('../../utils/platforms/qq'),
+  kuwo: require('../../utils/platforms/kuwo'),
+  kugou: require('../../utils/platforms/kugou')
+};
 
 /**
  * 获取音乐 URL
@@ -18,7 +24,6 @@ router.post('/url', async (req, res) => {
     }
 
     const platformHandler = platforms[platform.toLowerCase()];
-
     if (!platformHandler) {
       return res.status(400).json({
         success: false,
@@ -28,7 +33,6 @@ router.post('/url', async (req, res) => {
 
     logger.info('处理音乐 URL 请求', { platform, songName, quality });
 
-    // 通过歌曲名称获取音乐 URL
     const url = await platformHandler.getMusicUrlByName(songName, quality);
 
     res.json({
